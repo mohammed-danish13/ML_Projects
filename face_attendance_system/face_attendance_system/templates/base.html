@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Gate{% endblock %} · Attendance</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">G</div>
+            <div>
+                <div class="brand-name">Gate</div>
+                <div class="brand-sub">Face Attendance</div>
+            </div>
+        </div>
+        <nav class="nav">
+            <a href="/" class="{{ 'active' if active == 'home' else '' }}">Overview</a>
+            <a href="/login" class="{{ 'active' if active == 'login' else '' }}">Check In</a>
+            <a href="/register" class="{{ 'active' if active == 'register' else '' }}">Register</a>
+            <a href="/dashboard" class="{{ 'active' if active == 'dashboard' else '' }}">Attendance Log</a>
+            <a href="/settings" class="{{ 'active' if active == 'settings' else '' }}">Settings</a>
+        </nav>
+        <div class="gate-clock">
+            <div class="label">Gate Time</div>
+            <div class="value mono" id="live-clock">--:--:--</div>
+        </div>
+    </aside>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</div>
+<script>
+function tickClock() {
+    const el = document.getElementById('live-clock');
+    if (!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString('en-GB');
+}
+tickClock();
+setInterval(tickClock, 1000);
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

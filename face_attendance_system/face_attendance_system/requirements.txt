@@ -1,0 +1,6 @@
+Flask==3.0.3
+opencv-python-headless==4.10.0.84
+tensorflow==2.16.1
+numpy==1.26.4
+scikit-learn==1.5.1
+Pillow==10.4.0

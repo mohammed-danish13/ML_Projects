@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pre-Finals Hiring Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <h1>Resume Hiring Predictor</h1>
+            <p>Submit candidate details to get a prediction from a Flask-powered machine learning model.</p>
+        </header>
+
+        <section class="card">
+            <form method="post">
+                <div class="grid">
+                    <label>
+                        Experience (years)
+                        <input type="number" name="experience_years" min="0" max="20" value="4" required />
+                    </label>
+                    <label>
+                        Skills Score
+                        <input type="number" name="skills_score" min="0" max="100" value="80" required />
+                    </label>
+                    <label>
+                        Interview Score
+                        <input type="number" name="interview_score" min="0" max="100" value="85" required />
+                    </label>
+                    <label>
+                        Communication Score
+                        <input type="number" name="communication_score" min="0" max="100" value="78" required />
+                    </label>
+                    <label>
+                        Education
+                        <select name="education">
+                            <option value="Bachelor">Bachelor</option>
+                            <option value="Master">Master</option>
+                            <option value="PhD">PhD</option>
+                        </select>
+                    </label>
+                    <label>
+                        Location
+                        <select name="location">
+                            <option value="Remote">Remote</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Onsite">Onsite</option>
+                        </select>
+                    </label>
+                </div>
+                <button type="submit">Predict Hiring Outcome</button>
+            </form>
+
+            {% if prediction is not none %}
+            <div class="result">
+                <h3>Prediction: {{ prediction }}</h3>
+                <p>Confidence: {{ probability }}%</p>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+</body>
+</html>

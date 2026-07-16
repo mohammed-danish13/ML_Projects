@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Attendance Log{% endblock %}
+{% block content %}
+<div class="page-head">
+    <div class="eyebrow">Gate // Log</div>
+    <h1>Attendance Log</h1>
+    <p>Full check-in record for the selected date.</p>
+</div>
+
+<form method="get" style="display:flex; align-items:flex-end; gap: 12px; margin-bottom: 24px;">
+    <div class="field" style="margin-bottom:0; width: 200px;">
+        <label for="date">Date</label>
+        <input type="text" name="date" id="date" value="{{ summary.date }}" placeholder="YYYY-MM-DD">
+    </div>
+    <button class="btn secondary" type="submit">Load</button>
+</form>
+
+<div class="grid-3" style="margin-bottom: 24px;">
+    <div class="stat ok"><div class="num">{{ summary.on_time }}</div><div class="lbl">On Time</div></div>
+    <div class="stat warn"><div class="num">{{ summary.late }}</div><div class="lbl">Late</div></div>
+    <div class="stat danger"><div class="num">{{ summary.absent }}</div><div class="lbl">Absent</div></div>
+</div>
+
+<div class="card">
+    {% if summary.records %}
+    <table class="board">
+        <thead>
+            <tr><th>Name</th><th>Roll No</th><th>Time</th><th>Confidence</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+        {% for r in summary.records %}
+            <tr>
+                <td class="name-cell">{{ r.name }}</td>
+                <td>{{ r.roll_no or '—' }}</td>
+                <td>{{ r.time }}</td>
+                <td>{{ (r.confidence * 100) | round(1) }}%</td>
+                <td><span class="badge {{ 'ok' if r.status == 'ON-TIME' else 'warn' }}">{{ r.status }}</span></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">No records for this date.</div>
+    {% endif %}
+</div>
+{% endblock %}

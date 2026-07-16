@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<div class="page-head">
+    <div class="eyebrow">Gate // Today · {{ summary.date }}</div>
+    <h1>Overview</h1>
+    <p>Live snapshot of today's check-ins. Recognized faces are logged automatically against the configured deadline.</p>
+</div>
+
+<div class="grid-3" style="margin-bottom: 24px;">
+    <div class="stat ok">
+        <div class="num">{{ summary.on_time }}</div>
+        <div class="lbl">On Time</div>
+    </div>
+    <div class="stat warn">
+        <div class="num">{{ summary.late }}</div>
+        <div class="lbl">Late</div>
+    </div>
+    <div class="stat danger">
+        <div class="num">{{ summary.absent }}</div>
+        <div class="lbl">Not Checked In</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="margin-bottom: 16px; font-size: 16px;">Recent Check-Ins</h2>
+    {% if summary.records %}
+    <table class="board">
+        <thead>
+            <tr><th>Name</th><th>Roll No</th><th>Time</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+        {% for r in summary.records %}
+            <tr>
+                <td class="name-cell">{{ r.name }}</td>
+                <td>{{ r.roll_no or '—' }}</td>
+                <td>{{ r.time }}</td>
+                <td>
+                    <span class="badge {{ 'ok' if r.status == 'ON-TIME' else 'warn' }}">{{ r.status }}</span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">No check-ins yet today. Head to Check In to scan a face.</div>
+    {% endif %}
+</div>
+{% endblock %}
